@@ -1,5 +1,5 @@
 //! Password-token protected web administration. The existing Unix control socket remains private.
-use super::{App, Cache, Fail, Hdrs, Request, Res, Response, finish, send};
+use super::{App, Cache, Fail, Request, Res, Response, finish, send};
 use crate::options::js_to_number;
 use serde_json::{Value, json};
 
