@@ -241,7 +241,7 @@ const char *autotest_top_fng(void);
 uint32_t fe_copy(CPU *c, uint32_t pk, uint32_t o, uint32_t hash);
 
 #define TITLE_FNG     "UG_LS_Splash.fng"
-#define TITLE_LINE    "nfsu2.xyz"
+#define TITLE_LINE    "play.nfsu2.world"
 #define LINE_DY       12.f          /* HUD units under the copyright's centre */
 #define LINE_SIZE     0.75f         /* of the copyright's size */
 #define H_COPYRIGHT   0xc70ccfc7u
