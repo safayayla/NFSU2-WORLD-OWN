@@ -25,7 +25,9 @@ impl App {
             h.set("content-type", content_type);
             h.set("content-length", body.len().to_string());
             s.head(200, h.0);
-            if q.method != "HEAD" { send(s, body.as_bytes()).await?; }
+            if q.method != "HEAD" {
+                send(s, body.as_bytes()).await?;
+            }
             return finish(s).await;
         }
         if q.method != "POST" {
@@ -50,8 +52,13 @@ impl App {
         }
         let body = match q.read_body(MAX_BODY).await {
             Ok(b) => b,
-            Err(nfsu2_http::BodyError::TooLarge) => return self.plain(q, s, 413, "Too large", CLOSE, Cache::Store, true).await,
-            Err(nfsu2_http::BodyError::Broken) => { s.destroy(); return Err(Fail::Gone); }
+            Err(nfsu2_http::BodyError::TooLarge) => {
+                return self.plain(q, s, 413, "Too large", CLOSE, Cache::Store, true).await;
+            }
+            Err(nfsu2_http::BodyError::Broken) => {
+                s.destroy();
+                return Err(Fail::Gone);
+            }
         };
         let request: Value = match serde_json::from_slice(&body) {
             Ok(v) => v,
@@ -69,7 +76,10 @@ impl App {
             return self.plain(q, s, 400, "Unsupported command", CLOSE, Cache::Store, true).await;
         }
         let result = self.control(&words).await;
-        let (ok, text) = match result { Ok(t) => (true, t), Err(e) => (false, e) };
+        let (ok, text) = match result {
+            Ok(t) => (true, t),
+            Err(e) => (false, e),
+        };
         let body = json!({"ok":ok,"text":text}).to_string();
         let mut h = self.headers(q, Cache::Store, true);
         h.set("content-type", "application/json; charset=utf-8");
