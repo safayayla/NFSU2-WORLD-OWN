@@ -447,7 +447,6 @@ fn bench_routes() {
     drop(kit);
 }
 
-
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn admin_page_assets_are_served_under_the_site_csp() {
     let kit = Kit::start(&[], |_| {}).await;
