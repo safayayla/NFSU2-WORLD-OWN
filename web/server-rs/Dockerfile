@@ -48,6 +48,7 @@ RUN case "$TARGETARCH" in \
  && ln -s /opt/zig-*/zig /usr/local/bin/zig \
  && cargo install --locked cargo-zigbuild@0.23.4
 WORKDIR /src
+COPY web/admin.html web/admin.css web/admin.js web/
 COPY web/server-rs web/server-rs
 # no line tables in the image's binary (a third of its size); a panic still names its functions
 ENV CARGO_PROFILE_RELEASE_DEBUG=0
