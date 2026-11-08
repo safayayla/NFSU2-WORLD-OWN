@@ -2455,7 +2455,6 @@ export async function boot() {
   // the big panel's tabs (the one open last, or the one the address names: #friends) and About's; the Other tab's
   // contents are at the Game tab's end since the Mods tab came (kept or named, #other opens Game there)
   bigTabs = panelTabs($('#settings'), { store: PAGE_TAB, hash: true, moved: { other: { tab: 'game', at: '#game-data' } } });
-  panelTabs($('#about'));
   // Last.fm: its row under the songs' settings, and the scrobbles of the songs the game plays (lastfm.ts)
   const lastfmApi = new LastfmApi(), lastfmRow = new LastfmRow({ api: lastfmApi, log: logLine, say: pageToast });
   const scrobbler = new Scrobbler({ api: lastfmApi, folder: () => radio?.lastTrack ?? null, dropped: () => lastfmRow.dropped(), log: logLine });
@@ -2481,9 +2480,6 @@ export async function boot() {
   const pick = $<HTMLSelectElement>('#lang-pick');
   pick.replaceChildren(...LANGUAGES.map(l => Object.assign(document.createElement('option'), { value: l, textContent: NATIVE[l], lang: LOCALE[l] })));
   pick.onchange = () => void settings.set('language', pick.value);
-  // Donate at the top: a popup with the Ko-fi link, closed as Ko-fi opens in its own tab
-  $('#donate-btn').onclick = () => $<HTMLDialogElement>('#donate').showModal();
-  $('#donate-go').onclick = () => $<HTMLDialogElement>('#donate').close();
   // Changelog at the top: CHANGELOG.md's releases in a popup
   changelog($('#changelog-btn'), $<HTMLDialogElement>('#changelog'), $('#changelog-body'));
   fitTop(); onLanguage(fitTop); window.addEventListener('resize', fitTop); void document.fonts.ready.then(fitTop);

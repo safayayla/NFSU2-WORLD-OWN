@@ -1491,3 +1491,37 @@ dialog::backdrop { background: rgba(0, 0, 0, 0.64); }
 .fmbot:hover .fmbot-go { color: #fff; }
 /* /lastfm.html, the Last.fm popup's page, when the browser keeps the window open (lastfm-callback.ts) */
 .lastfm-closed { margin: 24px; }
+
+/* =========================================================
+   NEON UNDERGROUND THEME
+   Existing layout and game controls are preserved.
+   ========================================================= */
+
+:root {
+  --bg: #070914;
+  --frame: #0d1224;
+  --panel: #121a30;
+  --field: #080d1b;
+  --line: #263653;
+  --edge: #536b91;
+  --text: #edf5ff;
+  --muted: #9aacc7;
+
+  --lime: #35d9ff;
+  --lime-fill: #24204a;
+  --lime-glow: rgba(53, 217, 255, 0.42);
+
+  --bad: #ff5577;
+  --warn: #ffbf5e;
+
+  color-scheme: dark;
+}
+
+body {
+  background: var(--bg);
+}
+
+::selection {
+  background: rgba(53, 217, 255, 0.3);
+  color: #ffffff;
+}
