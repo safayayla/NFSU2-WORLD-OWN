@@ -8,6 +8,9 @@
 !web/package-lock.json
 !web/build.mjs
 !web/index.html
+!web/admin.html
+!web/admin.css
+!web/admin.js
 !web/tools/i18n-keys.mjs
 !web/src/
 !web/server-rs/
