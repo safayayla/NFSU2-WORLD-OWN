@@ -38,7 +38,6 @@ jobs:
       # Only the LAN and page jobs need Node, npm packages and the web bundle.
       # The server job is Rust-only; building the web app here duplicated work and could stall before Rust starts.
       - uses: actions/setup-node@v4
-        if: matrix.part != 'server'
         with:
           node-version: 23.9.0
           cache: npm
