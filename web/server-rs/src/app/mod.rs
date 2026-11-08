@@ -10,6 +10,7 @@
 //! bare address.  The console is the operator's own: it may name paths, but it names players only by their virtual
 //! address and nickname, never by their real address (--access-log is the one opt-in that records client addresses).
 
+mod admin;
 mod autoban;
 mod blocks;
 pub mod control;
@@ -557,6 +558,9 @@ impl App {
         }
         if q.method == "PUT" && self.o.dev && !self.o.artifacts.is_empty() && p.starts_with("/artifacts/") {
             return self.put_artifact(q, s, &p[11..]).await;
+        }
+        if p == "/admin-api" || p == "/admin" || p == "/admin.css" || p == "/admin.js" {
+            return self.admin_route(q, s, &p).await;
         }
         // keyphrase saves, claimed names and friends: their own methods and bodies (vault.rs, names.rs, friends.rs)
         if p == "/vault" {

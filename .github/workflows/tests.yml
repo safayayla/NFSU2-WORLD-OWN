@@ -35,17 +35,18 @@ jobs:
         part: [server, lan, page]
     steps:
       - uses: actions/checkout@v5
-      # node and the page's packages (ws, esbuild): the page's tests, the LAN crate's page tests, the Node comparisons.
-      # Those (crates/http cross_node, src/app/url.rs, crates/names cross_check) were checked against this Node: 24 reads
-      # a "^" in a path, a few malformed headers and some new Unicode letters otherwise
+      # Only the LAN and page jobs need Node, npm packages and the web bundle.
+      # The server job is Rust-only; building the web app here duplicated work and could stall before Rust starts.
       - uses: actions/setup-node@v4
         with:
           node-version: 23.9.0
           cache: npm
           cache-dependency-path: web/package-lock.json
       - run: npm ci
+        if: matrix.part != 'server'
         working-directory: web
       - run: node build.mjs
+        if: matrix.part != 'server'
         working-directory: web
       # wasi-sdk, in deps/ as on the Mac: the C tests built for wasm
       - id: wasi

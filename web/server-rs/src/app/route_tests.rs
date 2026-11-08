@@ -446,3 +446,25 @@ fn bench_routes() {
     }
     drop(kit);
 }
+
+#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
+async fn admin_page_assets_are_served_under_the_site_csp() {
+    let kit = Kit::start(&[], |_| {}).await;
+    let page = kit.get("/admin", &[]).await;
+    assert_eq!(page.status, 200);
+    let html = String::from_utf8(page.body).unwrap();
+    assert!(html.contains("href=\"/admin.css\""));
+    assert!(html.contains("src=\"/admin.js\""));
+    assert!(!html.contains("<style>"));
+    assert!(!html.contains("<script>"));
+
+    let css = kit.get("/admin.css", &[]).await;
+    assert_eq!(css.status, 200);
+    assert_eq!(css.header("content-type"), Some("text/css; charset=utf-8"));
+    assert!(String::from_utf8_lossy(&css.body).contains(".panel"));
+
+    let js = kit.get("/admin.js", &[]).await;
+    assert_eq!(js.status, 200);
+    assert_eq!(js.header("content-type"), Some("text/javascript; charset=utf-8"));
+    assert!(String::from_utf8_lossy(&js.body).contains("/admin-api"));
+}

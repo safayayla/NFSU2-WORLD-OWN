@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>NFSU2 WORLD — Admin</title>
+<link rel="stylesheet" href="/admin.css"></head><body>
+<main>
+<header class="top"><div class="brand"><div class="mark">U2</div><div><div class="eyebrow">WORLD CONTROL</div><div class="title">Administration</div></div></div><div class="row header-actions"><span id="state" class="status">Not connected</span><button id="logout" class="hidden">Log out</button></div></header>
+<section id="login" class="panel login"><div class="eyebrow">SECURE ACCESS</div><h1>Admin sign in</h1><p class="muted">Enter the server's admin access token. Your token stays in this tab and is not saved.</p><label for="token">Admin token</label><input id="token" type="password" autocomplete="current-password" placeholder="Paste your server token"><button id="connect" class="login-connect">Connect securely</button><p id="loginError" class="error"></p></section>
+<section id="dashboard" class="hidden">
+<div class="grid"><div class="metric"><b id="online">—</b><span>PLAYERS ONLINE</span></div><div class="metric"><b id="bans">—</b><span>ACTIVE BANS</span></div><div class="metric"><b id="refresh">—</b><span>LAST REFRESH</span></div></div>
+<div class="section"><h2>Live players</h2><div class="toolbar"><input id="filter" class="filter-input" placeholder="Filter players…"><button id="reload">Refresh</button></div></div>
+<div class="panel tablewrap table-panel"><table><thead><tr><th>Virtual address</th><th>Player</th><th>Activity</th><th>Action</th></tr></thead><tbody id="players"><tr><td colspan="4" class="empty">Connect to load players.</td></tr></tbody></table></div>
+<div class="section"><h2>Player action</h2></div><div class="panel"><div class="row"><div><label for="target">Player name or virtual address</label><input id="target" placeholder="e.g. 10.77.1.2 or PlayerName"></div><div><label for="action">Action</label><select id="action"><option value="kick">Kick</option><option value="ban">Ban</option><option value="raceban">Race ban</option><option value="unban">Unban</option></select></div></div><div class="row"><div><label for="duration">Duration (ban only)</label><select id="duration"><option value="30m">30 minutes</option><option value="12h">12 hours</option><option value="3d">3 days</option><option value="2w">2 weeks</option><option value="perm">Permanent</option></select></div><div><label for="reason">Reason / message</label><input id="reason" placeholder="Reason shown to the player"></div></div><button id="apply" class="danger action-submit">Apply action</button></div>
+<div class="section"><h2>Ban records</h2><button id="loadBans">Refresh bans</button></div><pre id="banList">Ban records have not been loaded.</pre><div class="section"><h2>Player history</h2><button id="loadHistory">Load history for selected player</button></div><pre id="historyList">Enter or select a player above, then load their ban and rename history.</pre>
+<div class="section"><h2>Admin activity</h2></div><pre id="output">Ready. Choose an action to begin.</pre>
+<p class="muted footnote">This first release uses the server's existing moderation engine. Role-based staff accounts and a dedicated audit history are planned for the next stage.</p>
+</section></main>
+<script src="/admin.js" defer></script></body></html>

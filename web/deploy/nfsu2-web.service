@@ -13,6 +13,7 @@ Wants=network-online.target
 Type=simple
 # the bundle's folder: the page (web/dist) and the game module (out/web) are in it
 Environment=NFSU2_REPO=/opt/nfsu2-web
+EnvironmentFile=-/etc/nfsu2-web/admin.env
 # --host: the name players open; behind a proxy the server needs it (it answers only for its own names, so a
 #    page of another site whose name points here gets nothing).  Put your name in place of game.example.com.
 # A: behind Caddy or nginx on this VPS (they do TLS); with Cloudflare's proxy (orange cloud) in front of
