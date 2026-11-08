@@ -31,7 +31,8 @@ You copy your own NFS Underground 2 folder to the VPS yourself.
    Pick its `ExecStart` line (A, D or B) and put your name in `--host`, then run:
    `sudo systemctl daemon-reload && sudo systemctl enable --now nfsu2-web`
    Its log: `journalctl -u nfsu2-web -f`.
-6. **Play.** Open `https://<your name>/` in Chrome.
+6. **Admin dashboard (optional).** Generate a private token on the VPS and put it in the deployment environment (for Docker Compose, add `NFSU2_ADMIN_TOKEN=<token>` to the `.env` file next to `compose.yml`; for a systemd service, add `Environment=NFSU2_ADMIN_TOKEN=<token>` to its service file). Generate it with `openssl rand -hex 32`; do not commit the token or share it. Restart the server after setting it. Then open `https://<your name>/admin` and paste the token. The dashboard supports online-player lookup, kick, full/race bans, unban, and ban history. Without the token the admin API stays disabled.
+7. **Play.** Open `https://<your name>/` in Chrome.
 
 **Who can play:** the server has no accounts or passwords. Anyone who can reach
 it can play, and can download the game files from it. Your firewall decides who
