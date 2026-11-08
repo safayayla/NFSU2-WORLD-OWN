@@ -11,13 +11,18 @@ impl App {
         if !self.own_page(q) {
             return self.plain(q, s, 403, "Forbidden", CLOSE, Cache::Store, true).await;
         }
-        if path == "/admin" {
+        let asset = match path {
+            "/admin" => Some((include_str!("../../../admin.html"), "text/html; charset=utf-8")),
+            "/admin.css" => Some((include_str!("../../../admin.css"), "text/css; charset=utf-8")),
+            "/admin.js" => Some((include_str!("../../../admin.js"), "text/javascript; charset=utf-8")),
+            _ => None,
+        };
+        if let Some((body, content_type)) = asset {
             if q.method != "GET" && q.method != "HEAD" {
                 return self.plain(q, s, 405, "Method not allowed", &[("allow", "GET, HEAD")], Cache::Store, true).await;
             }
-            let body = include_str!("../../../admin.html");
             let mut h = self.headers(q, Cache::Store, true);
-            h.set("content-type", "text/html; charset=utf-8");
+            h.set("content-type", content_type);
             h.set("content-length", body.len().to_string());
             s.head(200, h.0);
             if q.method != "HEAD" { send(s, body.as_bytes()).await?; }
@@ -27,7 +32,7 @@ impl App {
             return self.plain(q, s, 405, "Method not allowed", &[("allow", "POST"), ("connection", "close")], Cache::Store, true).await;
         }
         // The admin surface is never served over clear-text public HTTP. Loopback remains usable for local setup.
-        let local = q.conn.peer.ip().is_loopback();
+        let local = nfsu2_headers::bare_ip(&q.conn.peer).parse::<std::net::IpAddr>().is_ok_and(|ip| ip.is_loopback());
         if !local && !nfsu2_headers::via_https(q, &self.o.trust) {
             return self.plain(q, s, 403, "HTTPS required", CLOSE, Cache::Store, true).await;
         }
