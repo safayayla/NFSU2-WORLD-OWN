@@ -132,4 +132,5 @@ if (watch) {
   }
 } else {
   for (const o of [opts, bootOpts]) emit((await esbuild.build(o)).outputFiles);
+  await esbuild.stop();
 }
